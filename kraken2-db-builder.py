@@ -93,7 +93,7 @@ for file in os.listdir(workdir_fastas):
 # tar -xf taxonomy.tar.gz
 
 if taxonomy_path:
-    kraken_taxonomy_path = os.path.join(kraken_db, "taxonomy")
+    kraken_taxonomy_path = os.path.join(kraken_db)
     print("Copy taxonomy folder.")
     # shutil.copytree(taxonomy_path, kraken_taxonomy_path)
     
@@ -119,6 +119,11 @@ process.wait()
 # test db by running kraken2
 
 kraken_call = [f'kraken2 --db {kraken_db} {test_file} --report report.csv --thread 30 --confidence 0.01 > results.csv']
+process = sp.Popen(kraken_call, stderr=sys.stderr, stdout=sys.stdout, shell=True)
+process.wait()
+
+# test db by inspecting
+kraken_call = [f'kraken2-inspect --db {kraken_db} > db_inspected.csv']
 process = sp.Popen(kraken_call, stderr=sys.stderr, stdout=sys.stdout, shell=True)
 process.wait()
 
