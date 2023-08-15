@@ -1,5 +1,17 @@
 # build custom kraken2 db
 
+## Run
+
+* Open Galaxy Jupyter notebook
+* Clone this repo or upload as zip
+* create the conda env (see below)
+* modify the vertebrate_mammalian.csv accession input file
+* run the script
+* upload to zenodo
+
+
+# Notes
+
 ## Links
 
 * source: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7069206/
