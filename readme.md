@@ -4,13 +4,33 @@
 
 * Open Galaxy Jupyter notebook
 * Clone this repo or upload as zip
-* create the conda env (see below)
-* modify the vertebrate_mammalian.csv accession input file
+* Create the conda env (see below)
+* modify the vertebrate_mammalian.csv accession input file if needed
 * run the script
-* upload to zenodo
+    * the script can also just download the fasta, get the taxonomy or build the db individually
+* upload to zenodo via zenodo_upload.sh (see below)
+* split the tar file if zenode 50 GB limit
 
+## Install
 
-# Notes
+```
+mamba create -n kraken2 python=3.10
+conda activate kraken2
+mamba install htop seqfu rsync ncdu ncbi-genome-download kraken2 pandas pv jq
+```
+
+# Zenodo upload
+
+See: https://github.com/jhpoelen/zenodo-upload
+
+token=$token
+https://zenodo.org/deposit/8248780
+
+```
+./zenodo-upload/zenodo_upload.sh https://zenodo.org/deposit/8248780 meat_hosts_tests.tar.gz 
+```
+
+# Additional Notes
 
 ## Links
 
@@ -20,7 +40,7 @@
 
 ## Note
 
-* gallus gallus cannot be downloaded via the ncbi script
+* gallus gallus cannot be downloaded via the ncbi script, therefore the curl approach
 
 ## Code
 
@@ -57,16 +77,7 @@ kraken2 --db gallus_gallus_kraken2.db 'Galaxy1-[Barcode10].fastq.gz' --report re
 
 ```
 wget ftp://ftp.ncbi.nlm.nih.gov/pub/taxonomy/taxdump.tar.gz
-https://ftp.ncbi.nlm.nih.gov/genbank/gbbct1.seq.gz
 wget -q ftp://ftp.ncbi.nlm.nih.gov/pub/taxonomy/accession2taxid/nucl_gb.accession2taxid.gz
-```
-
-## Install
-
-```
-mamba create -n kraken2 python=3.10
-conda activate kraken2
-mamba install htop seqfu rsync ncdu ncbi-genome-download kraken2 pandas pv jq
 ```
 
 # zip with progress bar
@@ -83,13 +94,3 @@ split --bytes=200M taxonomy.tar.gz tax_chunks/taxonomy.tar.gz.
 cat  tax_chunks/taxonomy.tar.gz.* > taxonomy.tar.gz
 ```
 
-# zenodo upload
-
-See: https://github.com/jhpoelen/zenodo-upload
-
-token=$token
-https://zenodo.org/deposit/8248780
-
-```
-./zenodo-upload/zenodo_upload.sh https://zenodo.org/deposit/8248780 meat_hosts_tests.tar.gz 
-```
